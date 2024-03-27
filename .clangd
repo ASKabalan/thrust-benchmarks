@@ -1,0 +1,5 @@
+CompileFlags:
+  Add:
+    - --cuda-path=$CUDA_HOME 
+    - -LC:$CUDA_HOME/lib64
+    - -IC:$CUDA_HOME/include

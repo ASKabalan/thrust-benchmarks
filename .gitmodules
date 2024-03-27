@@ -1,0 +1,9 @@
+[submodule "matx/pybind11"]
+	path = matx/pybind11
+	url = git@github.com:pybind/pybind11.git
+[submodule "matx/MatX"]
+	path = matx/MatX
+	url = git@github.com:NVIDIA/MatX.git
+[submodule "cutlass/cutlass"]
+	path = cutlass/cutlass
+	url = git@github.com:NVIDIA/cutlass.git

@@ -1,21 +1,24 @@
-#include <cassert>
+#ifndef CUDA_MACRO_CHECKS_H
+#define CUDA_MACRO_CHECKS_H
+
 #include <algorithm>
+#include <cassert>
+#include <chrono>
 #include <cstdio>
 #include <iostream>
 #include <numeric>
-#include <vector>
-#include <chrono>
 #include <thrust/device_vector.h>
-#include <thrust/host_vector.h>
-#include <thrust/transform.h>
-#include <thrust/functional.h>
-#include <thrust/logical.h>
 #include <thrust/execution_policy.h>
+#include <thrust/functional.h>
+#include <thrust/host_vector.h>
+#include <thrust/logical.h>
+#include <thrust/transform.h>
+#include <vector>
 
 #ifdef __CUDACC__
 
 #define CHECK_CUDA_ERROR(val) check((val), #val, __FILE__, __LINE__)
-void check(cudaError_t err, const char *const func, const char *const file,
+inline void check(cudaError_t err, const char *const func, const char *const file,
            const int line) {
   if (err != cudaSuccess) {
     std::cerr << "CUDA Runtime Error at: " << file << ":" << line << std::endl;
@@ -25,7 +28,7 @@ void check(cudaError_t err, const char *const func, const char *const file,
 }
 
 #define CHECK_LAST_CUDA_ERROR() checkLast(__FILE__, __LINE__)
-void checkLast(const char *const file, const int line) {
+inline void checkLast(const char *const file, const int line) {
   cudaError_t const err{cudaGetLastError()};
   if (err != cudaSuccess) {
     std::cerr << "CUDA Runtime Error at: " << file << ":" << line << std::endl;
@@ -34,11 +37,9 @@ void checkLast(const char *const file, const int line) {
   }
 }
 
-
-#define SYNCHRONIZE_AND_CHECK() \
-  cudaDeviceSynchronize(); \
+#define SYNCHRONIZE_AND_CHECK()                                                \
+  cudaDeviceSynchronize();                                                     \
   CHECK_LAST_CUDA_ERROR();
-
 
 #else
 
@@ -46,4 +47,6 @@ void checkLast(const char *const file, const int line) {
 #define CHECK_LAST_CUDA_ERROR()
 #define SYNCHRONIZE_AND_CHECK()
 
-#endif
+#endif 
+
+#endif // CUDA_MACRO_CHECKS_H
